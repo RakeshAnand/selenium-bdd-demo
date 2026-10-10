@@ -2,6 +2,7 @@ package com.example.factory;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions; // Added Import
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
@@ -11,8 +12,22 @@ public class DriverFactory {
         if (driver == null) {
             // WebDriverManager automatically downloads and sets up the right driver
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--remote-allow-origins=*");
+
+            // Checks if executing inside a CI environment like GitHub Actions
+            if ("true".equals(System.getenv("CI"))) {
+                options.addArguments("--headless=new"); // Modern headless mode wrapper
+                options.addArguments("--disable-gpu");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+            } else {
+                // Only maximize the window view if running on local desktop UI
+                options.addArguments("--start-maximized");
+            }
+
+            driver = new ChromeDriver(options);
         }
         return driver;
     }
