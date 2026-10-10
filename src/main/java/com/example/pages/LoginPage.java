@@ -1,5 +1,6 @@
 package com.example.pages;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -7,27 +8,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class LoginPage {
-    private final WebDriver driver;
-    private final WebDriverWait wait;
 
-    // 1. Locators (Kept private to enforce encapsulation)
-    private final By usernameField = By.id("username");
-    private final By passwordField = By.id("password");
-    private final By loginButton = By.id("submit");
-    private final By errorMessage = By.id("error-message");
+    private WebDriver driver;
+    private WebDriverWait wait;
 
-    // 2. Constructor
+    // FIX: Changed from By.id("username") to By.name("uid") to match Guru99's DOM
+    private By usernameField = By.name("uid"); 
+    private By passwordField = By.name("password");
+    private By loginButton = By.name("btnLogin");
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // 3. Actions / Methods
-    public void navigateTo(String url) {
-        driver.get(url);
-    }
-
     public void enterUsername(String username) {
+        // This will now find the element instantly without timing out!
         wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys(username);
     }
 
@@ -40,6 +36,14 @@ public class LoginPage {
     }
 
     public String getErrorMessage() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage)).getText();
+        try {
+            wait.until(ExpectedConditions.alertIsPresent());
+            Alert alert = driver.switchTo().alert();
+            String alertText = alert.getText();
+            alert.accept();
+            return alertText;
+        } catch (Exception e) {
+            return "No alert displayed";
+        }
     }
 }

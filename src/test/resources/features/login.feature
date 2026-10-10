@@ -8,7 +8,7 @@ Feature: User Login Functionality
 
     @Smoke @Regression
     Scenario: Successful login with valid credentials
-        When the user enters username "john_doe" and password "SecurePassword123"
+        When the user enters username "mngr668298" and password "AsunUva"
         And clicks the login button
         Then the user should see the dashboard page
 

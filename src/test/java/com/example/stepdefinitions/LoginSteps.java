@@ -37,14 +37,16 @@ public class LoginSteps {
 
     @Then("the user should see the dashboard page")
     public void the_user_should_see_the_dashboard_page() {
-        String expectedUrl = "https://demo.guru99.com/V4/";
+        // FIX: Updated expected URL string to match the real post-login dashboard path
+        String expectedUrl = "https://demo.guru99.com/V4/manager/Managerhomepage.php";
+
         Assert.assertEquals(driver.getCurrentUrl(), expectedUrl, "User was not redirected to the dashboard!");
     }
 
     @Then("an error message {string} should be displayed")
     public void an_error_message_should_be_displayed(String expectedErrorMessage) {
         String actualMessage = loginPage.getErrorMessage();
-        Assert.assertTrue(actualMessage.contains(expectedErrorMessage), 
-            String.format("Expected error message '%s' but got '%s'", expectedErrorMessage, actualMessage));
+        Assert.assertTrue(actualMessage.contains(expectedErrorMessage),
+                String.format("Expected error message '%s' but got '%s'", expectedErrorMessage, actualMessage));
     }
 }
