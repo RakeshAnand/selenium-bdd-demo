@@ -11,8 +11,9 @@ Feature: User Login Functionality
         When the user enters username "mngr668298" and password "AsunUva"
         And clicks the login button
         Then the user should see the dashboard page
+        Then print all left pane link names
 
-    @Negative @Regression @skip
+    @Negative @Regression @ignore
     Scenario Outline: Unsuccessful login with invalid credentials
         When the user enters username "<username>" and password "<password>"
         And clicks the login button

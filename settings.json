@@ -1,0 +1,7 @@
+{
+    "cucumberautocomplete.steps": [
+        "src/test/java/**/*.java"
+    ],
+    "cucumberautocomplete.syncfeatures": "src/test/resources/**/*.feature",
+    "cucumberautocomplete.strictGherkinCompletion": true
+}

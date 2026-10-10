@@ -3,36 +3,38 @@ package com.example.pages;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.List; // CORRECT IMPORT
+import java.util.stream.Collectors;
 
 public class LoginPage {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    // FIX: Changed from By.id("username") to By.name("uid") to match Guru99's DOM
-    private By usernameField = By.name("uid"); 
+    private By usernameField = By.name("uid");
     private By passwordField = By.name("password");
     private By loginButton = By.name("btnLogin");
+    private By leftPaneLinks = By.xpath("//ul[@class='menusubnav']/li/a");
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     public void enterUsername(String username) {
-        // This will now find the element instantly without timing out!
         wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys(username);
     }
 
     public void enterPassword(String password) {
-        driver.findElement(passwordField).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys(password);
     }
 
     public void clickLogin() {
-        driver.findElement(loginButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
     public String getErrorMessage() {
@@ -45,5 +47,13 @@ public class LoginPage {
         } catch (Exception e) {
             return "No alert displayed";
         }
+    }
+
+    // Standard List return signature
+    public List<String> getLeftPaneLinkNames() {
+        List<WebElement> links = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(leftPaneLinks));
+        return links.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 }
