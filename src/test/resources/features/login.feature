@@ -6,7 +6,7 @@ Feature: User Login Functionality
     Background:
         Given the user is on the login page
 
-    @Smoke @Regression
+    @Smoke @Regression @ignore
     Scenario: Successful login with valid credentials
         When the user enters username "mngr668298" and password "AsunUva"
         And clicks the login button

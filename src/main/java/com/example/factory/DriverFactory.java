@@ -9,6 +9,12 @@ public class DriverFactory {
     private static WebDriver driver;
 
     public static WebDriver getDriver() {
+        // 1. Check if the execution is strictly for API tests
+        String testType = System.getProperty("testType", "ui"); // Defaults to UI if not provided
+        if ("api".equalsIgnoreCase(testType)) {
+            return null; // Do not launch the browser
+        }
+
         if (driver == null) {
             // WebDriverManager automatically downloads and sets up the right driver
             WebDriverManager.chromedriver().setup();
