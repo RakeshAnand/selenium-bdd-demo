@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org">
+<suite name="BDD Test Suite" parallel="none">
+    <test name="Cucumber Tests">
+        <classes>
+            <!-- Points directly to your BDD Test Runner class -->
+            <class name="com.example.runners.TestRunner"/>
+        </classes>
+    </test>
+</suite>
