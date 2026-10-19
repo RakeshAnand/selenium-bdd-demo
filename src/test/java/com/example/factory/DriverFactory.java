@@ -2,46 +2,48 @@ package com.example.factory;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions; // Added Import
+import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
-    private static WebDriver driver;
+
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    // Download the driver binary once per JVM, not once per thread
+    static {
+        WebDriverManager.chromedriver().setup();
+    }
 
     public static WebDriver getDriver() {
-        // 1. Check if the execution is strictly for API tests
-        String testType = System.getProperty("testType", "ui"); // Defaults to UI if not provided
+        // Skip the browser entirely for API-only runs
+        String testType = System.getProperty("testType", "ui");
         if ("api".equalsIgnoreCase(testType)) {
-            return null; // Do not launch the browser
+            return null;
         }
 
-        if (driver == null) {
-            // WebDriverManager automatically downloads and sets up the right driver
-            WebDriverManager.chromedriver().setup();
-
+        if (driver.get() == null) {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--remote-allow-origins=*");
 
-            // Checks if executing inside a CI environment like GitHub Actions
             if ("true".equals(System.getenv("CI"))) {
-                options.addArguments("--headless=new"); // Modern headless mode wrapper
+                options.addArguments("--headless=new");
                 options.addArguments("--disable-gpu");
                 options.addArguments("--no-sandbox");
                 options.addArguments("--disable-dev-shm-usage");
             } else {
-                // Only maximize the window view if running on local desktop UI
                 options.addArguments("--start-maximized");
             }
 
-            driver = new ChromeDriver(options);
+            driver.set(new ChromeDriver(options));
         }
-        return driver;
+        return driver.get();
     }
 
     public static void quitDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        WebDriver current = driver.get();
+        if (current != null) {
+            current.quit();
+            driver.remove(); // important: prevents leaks in thread pools
         }
     }
 }
