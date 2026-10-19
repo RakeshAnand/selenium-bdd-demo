@@ -5,8 +5,15 @@ import com.example.pages.LoginPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.time.Duration;
 import java.util.List; // CORRECT IMPORT
 
 public class LoginSteps {
@@ -37,8 +44,23 @@ public class LoginSteps {
 
     @Then("the user should see the dashboard page")
     public void the_user_should_see_the_dashboard_page() {
-        String expectedUrl = "https://demo.guru99.com/V4/manager/Managerhomepage.php";
-        Assert.assertEquals(driver.getCurrentUrl(), expectedUrl, "User was not redirected to the dashboard!");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // If login fails, the site shows a JS alert. Surface its text.
+        try {
+            wait.until(ExpectedConditions.alertIsPresent());
+            Alert alert = driver.switchTo().alert();
+            String msg = alert.getText();
+            alert.accept();
+            Assert.fail("Login failed with alert: " + msg);
+        } catch (TimeoutException e) {
+            // No alert appeared, which is what we want
+        }
+
+        wait.until(ExpectedConditions.urlContains("Managerhomepage.php"));
+        Assert.assertEquals(driver.getCurrentUrl(),
+                "https://demo.guru99.com/V4/manager/Managerhomepage.php",
+                "User was not redirected to the dashboard!");
     }
 
     @Then("an error message {string} should be displayed")
