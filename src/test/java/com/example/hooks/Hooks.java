@@ -5,12 +5,12 @@ import io.cucumber.java.After;
 import com.example.factory.DriverFactory;
 
 public class Hooks {
-    @Before
+    @Before("not @db and not @api")
     public void setUp() {
         DriverFactory.getDriver();
     }
 
-    @After
+    @After("not @db and not @api")
     public void tearDown() {
         DriverFactory.quitDriver();
     }

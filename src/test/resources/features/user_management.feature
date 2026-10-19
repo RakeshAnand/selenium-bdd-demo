@@ -1,3 +1,4 @@
+@api
 Feature: User Management API Operations
     As an API consumer
     I want to submit record payloads to the server
