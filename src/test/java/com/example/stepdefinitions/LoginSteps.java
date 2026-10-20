@@ -2,11 +2,14 @@ package com.example.stepdefinitions;
 
 import com.example.factory.DriverFactory;
 import com.example.pages.LoginPage;
+import com.example.utils.ConfigReader;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,7 +31,13 @@ public class LoginSteps {
 
     @Given("the user is on the login page")
     public void the_user_is_on_the_login_page() {
-        driver.get("https://demo.guru99.com/V4/");
+        driver.get(ConfigReader.get("app.url"));
+    }
+
+    @When("the user enters valid credentials")
+    public void the_user_enters_valid_credentials() {
+        loginPage.enterUsername(ConfigReader.get("app.username"));
+        loginPage.enterPassword(ConfigReader.get("app.password"));
     }
 
     @When("the user enters username {string} and password {string}")
@@ -46,18 +55,25 @@ public class LoginSteps {
     public void the_user_should_see_the_dashboard_page() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        // If login fails, the site shows a JS alert. Surface its text.
+        // Returns as soon as EITHER an alert appears OR the dashboard URL loads
+        wait.until(d -> {
+            try {
+                d.switchTo().alert();
+                return true;
+            } catch (NoAlertPresentException e) {
+                return d.getCurrentUrl().contains("Managerhomepage.php");
+            }
+        });
+
         try {
-            wait.until(ExpectedConditions.alertIsPresent());
             Alert alert = driver.switchTo().alert();
             String msg = alert.getText();
             alert.accept();
             Assert.fail("Login failed with alert: " + msg);
-        } catch (TimeoutException e) {
-            // No alert appeared, which is what we want
+        } catch (NoAlertPresentException e) {
+            // no alert, login succeeded
         }
 
-        wait.until(ExpectedConditions.urlContains("Managerhomepage.php"));
         Assert.assertEquals(driver.getCurrentUrl(),
                 "https://demo.guru99.com/V4/manager/Managerhomepage.php",
                 "User was not redirected to the dashboard!");

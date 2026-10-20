@@ -20,7 +20,7 @@ public class TestRunner extends AbstractTestNGCucumberTests {
      * Set parallel = true if you want scenarios to run concurrently.
      */
     @Override
-    @DataProvider(parallel = true)
+    @DataProvider(parallel = false)
     public Object[][] scenarios() {
         return super.scenarios();
     }

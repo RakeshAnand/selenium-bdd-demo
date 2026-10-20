@@ -1,4 +1,4 @@
-@db @Regression
+@db @Regression 
 Feature: H2 in-memory database operations
 
   Background:

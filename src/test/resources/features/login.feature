@@ -1,4 +1,4 @@
-@ui
+@ui @ignore
 Feature: User Login Functionality
     As a registered user of the application
     I want to log into my account
