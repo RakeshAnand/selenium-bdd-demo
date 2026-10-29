@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List; // CORRECT IMPORT
-import java.util.stream.Collectors;
 
 public class LoginPage {
 
@@ -49,11 +49,17 @@ public class LoginPage {
         }
     }
 
-    // Standard List return signature
     public List<String> getLeftPaneLinkNames() {
         List<WebElement> links = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(leftPaneLinks));
-        return links.stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
+        List<String> linkNames = new ArrayList<>();
+
+        for (WebElement link : links) {
+            if (link != null) { // Simple null safety check
+                linkNames.add(link.getText());
+            }
+        }
+
+        return linkNames;
     }
+
 }

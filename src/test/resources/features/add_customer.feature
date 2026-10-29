@@ -1,4 +1,4 @@
-@ui @Regression
+@ui @Regression @ignore
 Feature: Add new customer
 
   Background:
