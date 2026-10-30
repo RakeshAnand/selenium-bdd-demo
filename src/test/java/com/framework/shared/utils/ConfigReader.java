@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.framework.shared.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +9,8 @@ public final class ConfigReader {
     private static final Properties props = new Properties();
 
     static {
-        load("config.properties");
-        load("secrets.properties"); // optional, ignored if the file doesn't exist
+        load("config/config.properties");
+        load("config/secrets.properties"); // optional, ignored if the file doesn't exist
     }
 
     private ConfigReader() {

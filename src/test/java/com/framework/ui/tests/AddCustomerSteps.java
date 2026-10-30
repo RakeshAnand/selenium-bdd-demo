@@ -1,8 +1,8 @@
-package com.example.stepdefinitions;
+package com.framework.ui.tests;
 
-import com.example.factory.DriverFactory;
-import com.example.pages.AddCustomerPage;
-import com.example.pages.CustomerRegistrationPage;
+import com.framework.ui.drivers.DriverFactory;
+import com.framework.ui.pages.AddCustomerPage;
+import com.framework.ui.pages.CustomerRegistrationPage;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;

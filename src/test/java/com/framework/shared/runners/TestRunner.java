@@ -1,12 +1,14 @@
-package com.example.runners;
+package com.framework.shared.runners;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.DataProvider;
 
 @CucumberOptions(features = "src/test/resources/features", glue = {
-        "com.example.stepdefinitions",
-        "com.example.hooks"
+        "com.framework.ui.tests", // Where LoginSteps & AddCustomerSteps live
+        "com.framework.api.tests", // Where UserSteps lives
+        "com.framework.db.tests", // Where DatabaseSteps lives
+        "com.framework.ui.drivers" // Where Hooks.java lives
 }, plugin = {
         "pretty",
         "html:target/cucumber-reports/cucumber.html",
@@ -15,10 +17,6 @@ import org.testng.annotations.DataProvider;
 }, monochrome = true, tags = "not @ignore")
 public class TestRunner extends AbstractTestNGCucumberTests {
 
-    /**
-     * Override scenarios() to control parallel execution.
-     * Set parallel = true if you want scenarios to run concurrently.
-     */
     @Override
     @DataProvider(parallel = false)
     public Object[][] scenarios() {

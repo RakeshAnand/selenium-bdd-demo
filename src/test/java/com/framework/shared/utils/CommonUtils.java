@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.framework.shared.utils;
 
 public final class CommonUtils {
 

@@ -1,4 +1,4 @@
-package com.example.stepdefinitions;
+package com.framework.api.tests;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -6,7 +6,7 @@ import io.cucumber.java.en.Then;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import com.example.api.User;
+import com.framework.api.models.User;
 import org.testng.Assert;
 
 public class UserSteps {

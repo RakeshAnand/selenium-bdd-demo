@@ -1,8 +1,8 @@
-package com.example.stepdefinitions;
+package com.framework.ui.tests;
 
-import com.example.factory.DriverFactory;
-import com.example.pages.LoginPage;
-import com.example.utils.ConfigReader;
+import com.framework.ui.drivers.DriverFactory;
+import com.framework.ui.pages.LoginPage;
+import com.framework.shared.utils.ConfigReader;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -10,9 +10,7 @@ import io.cucumber.java.en.Then;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 

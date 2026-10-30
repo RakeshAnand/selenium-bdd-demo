@@ -86,6 +86,20 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Log4j 2 for test and demo logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.25.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.25.3</version>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
 

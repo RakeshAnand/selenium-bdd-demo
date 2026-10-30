@@ -4,7 +4,7 @@
     <test name="Cucumber Tests">
         <classes>
             <!-- Points directly to your BDD Test Runner class -->
-            <class name="com.example.runners.TestRunner"/>
+            <class name="com.framework.shared.runners.TestRunner"/>
         </classes>
     </test>
 </suite>

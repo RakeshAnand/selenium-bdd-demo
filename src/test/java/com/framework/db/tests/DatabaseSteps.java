@@ -1,4 +1,4 @@
-package com.example.stepdefinitions;
+package com.framework.db.tests;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -140,7 +140,7 @@ public class DatabaseSteps {
 
     private int count(String sql) throws SQLException {
         try (Statement st = connection.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+                ResultSet rs = st.executeQuery(sql)) {
             rs.next();
             return rs.getInt(1);
         }
