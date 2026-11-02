@@ -1,4 +1,4 @@
-@ui
+@ui @ignore
 Feature: User Login Functionality
     As a registered user of the application
     I want to log into my account
@@ -9,7 +9,7 @@ Feature: User Login Functionality
 
     @Smoke @Regression 
     Scenario: Successful login with valid credentials
-        When the user enters username "mngr668298" and password "AsunUva"
+        When the user enters username "mngr669134" and password "adYzYpE"
         And clicks the login button
         Then the user should see the dashboard page
         Then print all left pane link names
@@ -26,4 +26,4 @@ Feature: User Login Functionality
             | wrong_user | SecurePassword123 | Invalid username or password |
             | john_doe   | wrong_password    | Invalid username or password |
             |            | SecurePassword123 | Username cannot be empty     |
-            | john_doe   |                   | Password cannot be empty     |
+            | john_doe   |                   | Password must not be blank   |

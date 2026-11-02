@@ -7,25 +7,28 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverFactory {
 
-    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
-    // Download the driver binary once per JVM, not once per thread
+    // Keep static setup for legacy systems, but note Selenium 4 handles binaries
+    // natively
     static {
         WebDriverManager.chromedriver().setup();
     }
 
     public static WebDriver getDriver() {
-        // Skip the browser entirely for API-only runs
+        // Skip browser entirely for explicit API runs
         String testType = System.getProperty("testType", "ui");
         if ("api".equalsIgnoreCase(testType)) {
             return null;
         }
 
-        if (driver.get() == null) {
+        if (driverThreadLocal.get() == null) {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--remote-allow-origins=*");
 
-            if ("true".equals(System.getenv("CI"))) {
+            // Modern headless execution targeting string
+            if ("true".equalsIgnoreCase(System.getenv("CI"))
+                    || "true".equalsIgnoreCase(System.getProperty("headless"))) {
                 options.addArguments("--headless=new");
                 options.addArguments("--disable-gpu");
                 options.addArguments("--no-sandbox");
@@ -34,16 +37,29 @@ public class DriverFactory {
                 options.addArguments("--start-maximized");
             }
 
-            driver.set(new ChromeDriver(options));
+            driverThreadLocal.set(new ChromeDriver(options));
         }
-        return driver.get();
+        return driverThreadLocal.get();
+    }
+
+    /**
+     * Checks whether a browser driver instance actively exists on the current
+     * execution thread.
+     */
+    public static boolean isDriverExisting() {
+        return driverThreadLocal.get() != null;
     }
 
     public static void quitDriver() {
-        WebDriver current = driver.get();
-        if (current != null) {
-            current.quit();
-            driver.remove(); // important: prevents leaks in thread pools
+        WebDriver currentDriver = driverThreadLocal.get();
+        if (currentDriver != null) {
+            try {
+                currentDriver.quit();
+            } catch (Exception e) {
+                System.err.println("⚠️ Exception encountered while closing WebDriver session: " + e.getMessage());
+            } finally {
+                driverThreadLocal.remove(); // Prevents thread-local memory retention leaks
+            }
         }
     }
 }

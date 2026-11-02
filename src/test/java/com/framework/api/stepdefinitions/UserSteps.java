@@ -1,4 +1,4 @@
-package com.framework.api.tests;
+package com.framework.api.stepdefinitions;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;

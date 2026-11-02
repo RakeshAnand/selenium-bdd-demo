@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org">
-<suite name="BDD Test Suite" parallel="none">
+<suite name="BDD Test Suite" parallel="none" verbose="1">
     <test name="Cucumber Tests">
         <classes>
-            <!-- Points directly to your BDD Test Runner class -->
-            <class name="com.framework.shared.runners.TestRunner"/>
+            <!-- Target the TestRunner at the new root package location -->
+            <class name="com.framework.TestRunner"/>
         </classes>
     </test>
 </suite>

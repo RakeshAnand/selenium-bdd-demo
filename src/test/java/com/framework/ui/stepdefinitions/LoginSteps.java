@@ -1,4 +1,4 @@
-package com.framework.ui.tests;
+package com.framework.ui.stepdefinitions;
 
 import com.framework.ui.drivers.DriverFactory;
 import com.framework.ui.pages.LoginPage;

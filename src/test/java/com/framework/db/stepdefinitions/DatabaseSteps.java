@@ -1,4 +1,4 @@
-package com.framework.db.tests;
+package com.framework.db.stepdefinitions;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;

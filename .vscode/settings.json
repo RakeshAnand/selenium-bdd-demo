@@ -3,10 +3,14 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "[java]": { "editor.formatOnSave": true },
     "java.compile.nullAnalysis.mode": "automatic",
+    
+    // ✅ FIX: This recursively scans ALL packages and Java files inside src/test/java
     "cucumberautocomplete.steps": [
-        "src/test/java/com/example/stepdefinitions/*.java"
+        "src/test/java/**/*.java"
     ],
-    "cucumberautocomplete.syncfeatures": "src/test/resources/features/*.feature",
+    // ✅ FIX: This recursively scans ALL feature files under resources
+    "cucumberautocomplete.syncfeatures": "src/test/resources/**/*.feature",
+    
     "cucumberautocomplete.strictGherkinCompletion": false,
     "cucumberautocomplete.smartSnippets": true,
     "cucumberautocomplete.stepsInvariantCase": true,
