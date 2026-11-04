@@ -83,7 +83,6 @@ public class UserSteps {
     public void i_extract_and_print_the_detail_using_pojo(String targetName) {
         // 1. Deserialize the full array payload directly into the User POJO Array
         User[] users = response.as(User[].class);
-
         User matchedUser = null;
 
         // 2. Find the user by name using a simple loop
@@ -113,7 +112,8 @@ public class UserSteps {
     public void i_extract_and_print_the_address_and_company_details_for_the_user_named(String targetName) {
         // 1. Deserialize the full JSON array payload into the User POJO Array
         User[] users = response.as(User[].class);
-
+        // Print the name of the very first user in the array
+        System.out.println("This is test " + users[0].getName());
         User matchedUser = null;
 
         // 2. Loop through the array to find the target user by name
@@ -150,6 +150,22 @@ public class UserSteps {
         System.out.println("Catchphrase:     " + matchedUser.getCompany().getCatchPhrase());
         System.out.println("Business Spec:   " + matchedUser.getCompany().getBs());
         System.out.println("==================================================");
+    }
+
+    @And("print the detail of user named {string}")
+    public void i_extract_and_print_the_detail_using_pojo_ignore(String targetName) {
+        // 1. Deserialize the full JSON array payload into the User POJO Array
+        User[] users = response.as(User[].class);
+        // Print the name of the very first user in the array
+        System.out.println("This is test " + users[0].getName());
+
+        System.out.println("--- Printing All User Names ---");
+
+        for (int i = 0; i < users.length; i++) {
+            if (users[i].getName().equalsIgnoreCase(targetName)) {
+                System.out.println("Found " + targetName + " with email: " + users[i].getEmail());
+            }
+        }
     }
 
 }
