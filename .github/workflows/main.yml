@@ -24,7 +24,7 @@ jobs:
 
     - name: Execute Scoped Selenium Tests
       # Runs only your @Smoke scenario tags on the headless runner infrastructure
-      run: mvn test "-Dcucumber.filter.tags=@Smoke"
+      run: mvn test "-Dcucumber.filter.tags=@Smoke" -Dparallel.threads=3
 
     - name: Upload Cucumber Test Reports
       if: always() # Ensures reports upload even if tests fail
